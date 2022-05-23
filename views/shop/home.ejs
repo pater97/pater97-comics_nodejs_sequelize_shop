@@ -1,18 +1,16 @@
 <%- include('../includes/head.ejs') %> 
 </head>
 <body>
-    <header>
-        <nav class="navbar">
-            <div class="left">
-                <h1 class="logo">COMICS</h1>
-                <a href="#">Home</a>
-                <a href="#">Tutti i prodotti</a>
-            </div>
-            <div class="right">
-                <a href="#">chart</a>
-                <a href="#">Admin mode</a>
-            </div>
-        </nav>
-    </header>
-</body>
-</html>
+  <%- include('../includes/nav.ejs') %> 
+  <main id="home">
+    <h1 class="secondary-color-text" 
+    style="text-shadow: 0px -5px 5px black;
+    font-size: 10rem;text-align: center;">
+      BENVENUTO NELLO SHOP COMICS!
+    </h1>
+    <div class="link">
+      <a href="/comics">SCOPRI I PRODOTTI</a>
+      <a href="/admin">SEI ADMIN? ENTRA QUI!</a>
+    </div>
+  </main>
+<%- include('../includes/end.ejs') %> 

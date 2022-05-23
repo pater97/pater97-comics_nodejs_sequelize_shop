@@ -1,0 +1,48 @@
+<%- include('../includes/head.ejs') %> 
+<link rel="stylesheet" href="/css/adminIndex.css">
+</head>
+<body>
+    <%- include('../includes/nav.ejs') %> 
+
+    <main>
+        <div class="add_comic">
+            <a href="/admin/add-comic"><span class="plus"><i class="fa-solid fa-plus"></i></span> AGGIUNGI UN NUOVO COMIC <span class="plus"><i class="fa-solid fa-plus"></i></span></a>
+        </div>
+    
+        <% if(comics.length > 0){ %> 
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">TITOLO</th>
+                    <th scope="col">PREZZO</th>
+                    <th scope="col">DESCRIZIONE</th>
+                    <th scope="col">COVER</th>
+                    <th scope="col">AZIONI</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <% for(let comic of comics){ %> 
+                        <tr>
+                            <th scope="row" class="title"><%= comic.title %> </th>
+                            <td class="price"><%= comic.price %> </td>
+                            <td class="description"><%= comic.description %> </td>
+                            <td class="image"> <img src="<%= comic.image %> " alt="cover"> </td>
+                            <td class="action">
+                                <a href="/comic/<%= comic.id %> "><i class="fa-solid fa-eye"></i></a>
+                                <a href="/admin/edit-comic/<%= comic.id %>?edit=true"><i class="fa-solid fa-pen-to-square"></i></a>
+                                <form action="/admin/delete" method="POST">
+                                    <input type="hidden" name="comicId" id="comicId" value="<%= comic.id %>">
+                                    <button type="submit"><i class="fa-solid fa-trash"></i></button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% } %> 
+                </tbody>
+        <% } else { %>
+            <h2 style="text-align: center;">
+                NESSUN PRODOTTO DISPONIBILE!
+            </h2>
+        <% } %>  
+        
+    </main>
+<%- include('../includes/end.ejs') %> 

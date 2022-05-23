@@ -1,0 +1,46 @@
+h2{
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 3rem;
+}
+.container_comics{
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+article .title{
+    margin-top: .5rem;
+    font-size: 1.5rem;
+}
+article div{
+    color: #cdcdcd;
+}
+article div h6{
+    font-size: 1.4rem;
+}
+article div i{
+    color: #cdcdcd;
+    font-size: 1.5rem;
+}
+article div i:hover{
+    color: black;
+    cursor: pointer;
+    transform: scale(105%);
+    transition: .2s;
+}
+article img:hover{
+    box-shadow: 1px -1px 17px 0px #cdcdcd;
+}
+article{
+    margin-top: 2rem;
+}
+.action{
+    display: flex;
+    justify-content: space-around;
+    margin-top: .5rem;
+}
+.action form button{
+    background: none;
+    border: none;
+    color: white;
+}

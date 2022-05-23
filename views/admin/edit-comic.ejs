@@ -1,0 +1,35 @@
+<%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/forms.css">
+</head>
+
+<body>
+   <%- include('../includes/nav.ejs') %>
+
+    <main>
+        
+        <form class="comic-form " action="/admin/<% if (editing) { %>edit-comic<% } else { %>add-comic<% } %>" method="POST">
+            <div class="form-control">
+                <label for="title">TITOLO:</label>
+                <input type="text" name="title" id="title" value="<% if (editing) { %><%= comic.title %><% } %>">
+            </div>
+            <div class="form-control">
+                <label for="image">COPERTINA:</label>
+                <input type="text" name="image" id="image" value="<% if (editing) { %><%= comic.image %><% } %>">
+            </div>
+            <div class="form-control">
+                <label for="price">PREZZO:</label>
+                <input type="number" name="price" id="price" step="0.01" value="<% if (editing) { %><%= +comic.price %><% } %>">
+            </div>
+            <div class="form-control">
+                <label for="description">DESCRIZIONE:</label>
+                <textarea name="description" id="description" rows="5"><% if (editing) { %><%= comic.description %><% } %></textarea>
+            </div>
+            <% if (editing) { %>
+                <input type="hidden" value="<%= comic.id %>" name="comicId">
+            <% } %>
+            <div class="button">
+                <button class="btn" type="submit"><% if (editing) { %>modifica comic<% } else { %>aggiungi comic<% } %></button>
+            </div>
+        </form>
+    </main>
+<%- include('../includes/end.ejs') %>

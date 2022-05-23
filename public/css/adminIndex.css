@@ -1,0 +1,58 @@
+main{
+    padding: 0 1rem;
+}
+/* bottone aggiungi */
+.add_comic{
+    display: flex;
+    justify-content: center;
+    margin: 2rem;
+}
+.add_comic a{
+    background: black;
+    border-radius: 10px;
+    color: white;
+    padding: 0.5rem 2rem;
+    text-decoration: none;
+}
+.add_comic a:hover{
+    transform: scale(105%);
+    cursor: pointer;
+    transition: all .2s ease-in-out;
+}
+.add_comic a span i{
+    color: #673AB7 !important;
+}
+/* tabella */
+table{
+    width: 100%;
+    text-align: left;
+}
+.image img{
+    height: 10rem;
+    border-radius: 8px;
+}
+.image img:hover{
+    position: relative;
+    transform: scale(300%);
+    transition: .2s ease-in-out;
+}
+.action a{
+    color: white;
+    padding-right: 0.5rem;
+}
+.action a i:hover,form i:hover{
+    transform: scale(110%);
+    transition: all .2s ease;
+}
+.action{
+    display: flex;
+    align-items: center;
+}
+.action button{
+    background:none;
+    border: none;
+    color: white;
+}
+.action button:hover{
+    cursor: pointer;
+}

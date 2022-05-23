@@ -1,0 +1,125 @@
+/* utility */
+.brand-color-text{
+    color:#673AB7 !important;
+}
+.brand-color-bg{
+    background-color: #673AB7;
+}
+.secondary-color-text{
+    color: #CDCDCD;
+}
+secondary-color-bg{
+    background-color: #CDCDCD;
+}
+.title-font{
+    font-family: 'Koulen';
+}
+/* general */
+*{
+    box-sizing: border-box;
+    margin: 0;
+    font-family:'Archivo','Koulen';
+}
+body{
+    background-color: #673AB7;
+}
+/* header */
+header{
+    margin-bottom: 1rem;
+}
+.navbar{
+    display: flex;
+    justify-content: space-between;
+    padding:.5rem 2rem;
+    background-color: black;
+}
+.left_nav{
+    display: flex;
+    align-items: center;
+}
+.navbar a{
+    padding-left: 2rem;
+    text-decoration: none;
+    color: #CDCDCD;
+}
+.logo{
+    font-size: 2rem;
+}
+.right_nav{
+    display: flex;
+    align-items: center;
+}
+.right_nav a{
+    font-size: 1.5rem;
+}
+.navbar a:hover{
+    transform: scale(105%);
+    cursor: pointer;
+}
+/* page not found */
+.main_error{
+    display: flex;
+    align-items: center;
+    padding-top: 5rem;
+    flex-direction: column;
+}
+.main_error a{
+    text-decoration: none;
+    margin-top: 2rem;
+}
+
+/* carrello */
+#cart img{
+    width: 5rem;
+}
+#cart li{
+    display: flex;
+    margin: 1rem 0;
+}
+#cart li .info{
+    margin-left: 3rem;
+    line-height: 2rem;
+}
+#cart .btn_complete{
+    margin-top: 1rem;
+    border: 2px solid black;
+    background-color: #673AB7;
+    padding: .5rem 2rem;
+}
+#cart .btn_complete:hover{
+    background-color: black;
+    color: #673AB7;
+    cursor: pointer;
+    transform: scale(105%);
+    transition: all .3s ease-in-out;
+}
+#cart .btn{
+    background-color: black;
+    color: #673AB7;
+    font-weight: bold;
+}
+#cart .btn:hover{
+    cursor: pointer;
+    transform: scale(105%);
+}
+#home .link{
+    margin-top: 3rem;
+    display: flex;
+    justify-content: space-around;
+}
+#home .link a{
+    background-color: #CDCDCD;
+    color: #673AB7;
+    font-weight: 600;
+    box-shadow: 4px -4px 4px 0px black;
+    text-decoration: none;
+    padding: .5re 2rem;
+    padding: 0.5rem 2rem;
+    border-radius: 10px;
+}
+#home .link a:hover{
+    background-color: #673AB7;
+    color: #CDCDCD;
+    transition: all .3s ease-in-out;
+    box-shadow: 0px 5px 20px 5px black;
+}

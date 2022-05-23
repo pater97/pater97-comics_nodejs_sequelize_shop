@@ -1,0 +1,9 @@
+.container_comic{
+    display: flex;
+    justify-content: center;
+    margin-top: 3rem;
+}
+.container_comic .right{
+    margin-left: 2rem;
+    line-height: 2rem;
+}

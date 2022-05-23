@@ -1,0 +1,17 @@
+<header>
+    <nav class="navbar">
+        <div class="left_nav">
+            <h1 class="logo title-font brand-color-text">COMICS</h1>
+            <a class=" <%= activeClass === 'home' ? 'brand-color-text' : '' %> "  href="/">HOME</a>
+            <a class="<%= activeClass === 'comics' ? 'brand-color-text' : ''  %> " href="/comics">TUTTI I PRODOTTI</a>
+            
+        </div>
+        <div class="right_nav">
+            <a class="<%= activeClass === 'cart' ? 'brand-color-text' : '' %> " href="/cart"><i class="fa-solid fa-cart-shopping"></i></a>
+            <a class="<%= activeClass === 'order' ? 'brand-color-text' : ''  %> " href="/orders"><i class="fa-solid fa-chart-column"></i></a>
+            <a class="<%= activeClass === 'admin' ? 'brand-color-text' : '' %> " href="/admin/"><i class="fa-solid fa-circle-user"></i></a>
+        </div>
+        <script src="/js/nav.js"></script>
+    </nav>
+</header>
+

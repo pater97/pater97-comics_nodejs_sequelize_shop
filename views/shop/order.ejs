@@ -1,0 +1,26 @@
+<%- include('../includes/head.ejs') %>
+    </head>
+
+    <body>
+        <%- include('../includes/nav.ejs') %>
+        <main>
+            <% if (orders.length <= 0) { %>
+                <h1>NON HAI EFFETTUATO ORDINI!</h1>
+            <% } else { %>
+                <h2 class="secondary-color-text title-font" style="font-size: 3rem;text-align:center;"> STORICO ORDINI</h2>
+                <ul>
+                    <% orders.forEach(order => { %>
+                        <li style="margin: 1rem 0;">
+                            <h2 class="secondary-color-text">ORDINE <%= order.id %></h2>
+                            <ul>
+                                <!-- in questo caso utilizzo products e non orderItem percheè nel controller ho avuto necessità di passarlo in questo modo -->
+                                <% order.comics.forEach(comic => { %>
+                                    <li><%= comic.title %> | (qty: <%= comic.orderItem.quantity %>)</li>
+                                <% }); %>
+                            </ul>
+                        </li>
+                    <% }); %>
+                </ul>
+            <% } %>
+        </main>
+        <%- include('../includes/end.ejs') %>

@@ -1,0 +1,38 @@
+<%- include('../includes/head.ejs') %>
+    </head>
+
+    <body>
+        <%- include('../includes/nav.ejs') %>
+        <main id="cart">
+            <% if (comics.length > 0) { %>
+                <h2 class="secondary-color-text title-font" style="text-align: center;font-size:3rem;">
+                    IL TUO CARRELLO
+                </h2>
+                <ul>
+                    <% comics.forEach(c => { %>
+                        <li>
+                            <img src="<%= c.image %> " alt="">
+                            <div class="info">
+                                <h1><%= c.title %> </h1>
+                                <h2 class="secondary-color-text">quantità: <%= c.cartItem.quantity  %></h2>
+                                <form action="/cart-delete-item" method="POST">
+                                    <input type="hidden" value="<%= c.id %>" name="comicId">
+                                    <button class="btn" type="submit">ELIMINA</button>
+                                </form>
+                            </div>
+                        </li>
+                        <hr>
+                    <% }) %>
+                </ul>
+                <div class="centered" style="display: flex;justify-content:center;">
+                    <form action="/orders" method="POST">
+                        <button type="submit" class="btn_complete">
+                            COMPLETA ORDINE
+                        </button>
+                    </form>
+                </div>
+            <% } else { %>
+                <h1>NON HAI NIENTE NEL CARRELLO!</h1>
+            <% } %>
+        </main>
+        <%- include('../includes/end.ejs') %>
