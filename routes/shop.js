@@ -2,21 +2,21 @@ const express = require('express');
 const router = express.Router();
 const shopController = require('../controllers/shop');
 
-//mostra homepage
+// //mostra homepage
 router.get('/',shopController.getIndex);
-//mostra tutti i prodotti
+// //mostra tutti i prodotti
 router.get('/comics',shopController.getComics);
-//mostra show
+// //mostra show
 router.get('/comic/:comicId',shopController.getComic);
-//mostra carrello
+// //mostra carrello
 router.get('/cart',shopController.getCart);
-//aggiungi a carrello
+// //aggiungi a carrello
 router.post('/cart',shopController.postCart);
-//elimina dal carrello
+// //elimina dal carrello
 router.post('/cart-delete-item',shopController.postCartDeleteComic);
-//posto gli ordini
+// //posto gli ordini
 router.post('/orders',shopController.postOrder);
-//mostra ordini
+// //mostra ordini
 router.get('/orders',shopController.getOrders);
 
 

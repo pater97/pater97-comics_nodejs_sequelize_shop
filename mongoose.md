@@ -3,8 +3,8 @@
     + express
     + body-parser
     + ejs
-    + mysql2
-    + sequalize 
+    + mongodb
+    + mongoose 
 
 - npm init per creare il package.json e impostare lo script per npm start
 
@@ -17,32 +17,25 @@
 - views -> per le pagine da visualizzare 
 
 # collegare il db 
-
-- nella cartella "util" creare un file chiamato database.js
-- importare sequelize -> const Sequelize = require('sequelize')
-- creare l'istanza dove specifico la connessione del db 
-- esportarlo -> module.exports = sequelize;
-
-# app.js
+# in app.js
 - creare file app.js che gestirà il tutto
 - importare
     + body-parser
     + path
     + express
-    + il db -> const sequelize = require('./util/database');
-- richiamare express per utilizzarlo -> const app = express()
-- settare il template engine che utilizzerò
-- settare il pacchetto per le req
-- indicare il percorso statico per i file css
-- richiamare il server -> 
-                        sequelize
-                        .sync()
-                        .then( result => {
-                        app.listen(3000);
-                        })
-                        .catch(err => {
-                          console.log(err);
-                        });
+    + mongoose
+    + tramite mongoose avviare il server passando l'url fornito da mongoDb inserendo user e password e (facoltativo) nome
+    mongoose
+  .connect(
+    'mongodb+srv://root:hdJVk1UWmv8JF2Co@cluster0.1uaxy.mongodb.net/prova?retryWrites=true&w=majority'
+  )
+  .then(result => {
+    app.listen(3000);
+  })
+  .catch(err => {
+    console.log(err);
+  });
+
 
 # creare rotte e view
 
@@ -76,57 +69,52 @@
 
 # models
 
-- importare sequelize -> const Sequelize = require('sequelize');
-- importare db -> const sequelize = require('../util/database');
-- impostare il modello 
-    + es:  const Product = sequelize.define('product', {
-      id: {
-          type: Sequelize.INTEGER,
-          autoIncrement: true,
-          allowNull: false,
-          primaryKey: true
-      },
-      title: Sequelize.STRING,
-      price:{
-        type: Sequelize.DOUBLE,
-        allowNull: false
-      },
-      imageUrl: {
-        type : Sequelize.STRING,
-        allowNull: false
-      },
-      description: {
-        type: Sequelize.STRING,
-        allowNull: false
-      }
-    });
+- importare mongoose -> const mongoose = require('mongoose');
+- attivare lo Schema -> const Schema = mongoose.Schema;
+- impostare il modello tramite schema
+    + es:  
+const mongoose = require('mongoose');
 
-- renderlo esportabile
-    + module.exports = Product;
+const Schema = mongoose.Schema;
+
+const productSchema = new Schema({
+  title: {
+    type: String,
+    required: true
+  },
+  price: {
+    type: Number,
+    required: true
+  },
+  description: {
+    type: String,
+    required: true
+  },
+  imageUrl: {
+    type: String,
+    required: true
+  },
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  }
+});
+
+- aggiungere metodi se necessario 
+
+- esportarlo indicando il nome che prenderà la collaction e lo schema da seguire
+module.exports = mongoose.model('Product', productSchema);
+
 
 # in app.js quindi
-- Importare i models 
-- relazionare le tabelle 
-    + esempio di serie di associazioni: 
-    = 
-        Product.belongsTo(User, {constrain:true,onDelete:'CASCADE'})
-        User.hasMany(Product);
-        User.hasOne(Cart);    //un utente ha un carrello
-        Cart.belongsTo(User)  //un carrello appartiene ad un utente
-        Cart.belongsToMany(Product , { through: CartItem });  //più carrelli contentono più prodotti
-        Product.belongsToMany(Cart, { through:CartItem })     //più prodotti in più carrelli
-        Order.belongsTo(User);                                 //un ordine appartiene a un utente
-        User.hasMany(Order);                                  //un utente può avere più ordini
-        Order.belongsToMany(Product, { through : OrderItem })  
+- Importare i models se necessario
 
-- grazie a sync le tabelle si sincronizzeranno automaitcamente, ma se c'è la necessita si può forzare la creazione usando il force -> 
-                    sequelize
-                    .sync({force:true})
-                    .then( result => {
-                    app.listen(3000);
-                    })
-                    .catch(err => {
-                    console.log(err);
-                    });
-!!!ATTENZIONE PERò PERCHè RESETTERà TUTTO!!!
-
+# procedimento possibile
+- dopo aver creato i modelli:
+  + mostrare add
+  + post di add
+  + mostra tutti i prodotti
+  + vista show
+  + edit
+  + delete

@@ -7,3 +7,15 @@
     margin-left: 2rem;
     line-height: 2rem;
 }
+.btn{
+    padding: .5rem 2rem;
+    background:none;
+    color: #cdcdcd;
+    border: none;
+    font-size: 4rem;
+}
+.btn:hover{
+    cursor: pointer;
+    transform: rotate(360deg);
+    transition: all .5s;
+}

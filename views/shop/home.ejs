@@ -1,4 +1,5 @@
 <%- include('../includes/head.ejs') %> 
+<link rel="stylesheet" href="/css/home.css">
 </head>
 <body>
   <%- include('../includes/nav.ejs') %> 
@@ -11,6 +12,23 @@
     <div class="link">
       <a href="/comics">SCOPRI I PRODOTTI</a>
       <a href="/admin">SEI ADMIN? ENTRA QUI!</a>
+    </div>
+    <h2 style="text-align: center;margin-top: 3rem;
+    font-size: 3rem;
+    text-shadow: 4px 5px 3px black;" class="secondary-color-text">
+      ULTIMI ARRIVI!
+    </h2>
+    <div class="newComic">
+      <% for(let comic of comics){ %> 
+        <% if(comic.isNew){ %> 
+        <article >
+          <a href="/comic/<%= comic._id %> ">
+            <img src="<%= comic.image %> " alt="comic image">
+            <h3 class="secondary-color-text title" style="text-align: center;"><%= comic.title %> </h3>
+          </a>
+        </article>
+        <% } %> 
+    <% } %> 
     </div>
   </main>
 <%- include('../includes/end.ejs') %> 

@@ -24,6 +24,10 @@
                 <label for="description">DESCRIZIONE:</label>
                 <textarea name="description" id="description" rows="5"><% if (editing) { %><%= comic.description %><% } %></textarea>
             </div>
+            <div class="form-control checkbox">
+                <label for="isNew">NUOVO PRODOTTO?</label>
+                <input type="checkbox" name="isNew" checked="true" value="true" >
+            </div>
             <% if (editing) { %>
                 <input type="hidden" value="<%= comic.id %>" name="comicId">
             <% } %>

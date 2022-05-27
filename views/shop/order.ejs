@@ -11,11 +11,11 @@
                 <ul>
                     <% orders.forEach(order => { %>
                         <li style="margin: 1rem 0;">
-                            <h2 class="secondary-color-text">ORDINE <%= order.id %></h2>
+                            <h2 class="secondary-color-text">CODICE ORDINE: <%= order._id %></h2>
                             <ul>
                                 <!-- in questo caso utilizzo products e non orderItem percheè nel controller ho avuto necessità di passarlo in questo modo -->
                                 <% order.comics.forEach(comic => { %>
-                                    <li><%= comic.title %> | (qty: <%= comic.orderItem.quantity %>)</li>
+                                    <li><%= comic.comic.title %> | (qty: <%= comic.quantity %>)</li>
                                 <% }); %>
                             </ul>
                         </li>

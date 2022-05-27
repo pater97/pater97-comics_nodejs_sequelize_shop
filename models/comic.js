@@ -1,30 +1,36 @@
-const Sequelize = require('sequelize');
-const sequelize = require('../util/database');
+//importo mongoose
+const mongoose = require('mongoose');
+//abilito la funzione di schema
+const Schema = mongoose.Schema;
 
-const Comic = sequelize.define('comic',{
-    id: {
-        type: Sequelize.INTEGER,
-        autoIncrement: true,
-        allowNull:false,
-        primaryKey:true,
-        unique:true
-    },
+//creo il mio costrutto o schema
+
+const comicSchema = new Schema({
     title: {
-        type:Sequelize.STRING,
-        allowNull:false
+        type: String,
+        required: true
     },
     price: {
-        type: Sequelize.DOUBLE,
-        allowNull:false
-    },
-    image: {
-        type: Sequelize.STRING,
-        allowNull:false
+        type:Number,
+        required:true
     },
     description: {
-        type: Sequelize.STRING,
-        allowNull:true
+        type:String,
+        required: true
+    },
+    image: {
+        type: String,
+        required:true
+    },
+    isNew: {
+        type:Boolean,
+        required:false
+    },
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref:'User',
+        required:true
     }
 });
 
-module.exports = Comic;
+module.exports = mongoose.model('Comic',comicSchema);

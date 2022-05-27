@@ -11,12 +11,12 @@
                 <ul>
                     <% comics.forEach(c => { %>
                         <li>
-                            <img src="<%= c.image %> " alt="">
+                            <img src="<%= c.comicId.image %> " alt="">
                             <div class="info">
                                 <h1><%= c.title %> </h1>
-                                <h2 class="secondary-color-text">quantità: <%= c.cartItem.quantity  %></h2>
+                                <h2 class="secondary-color-text">quantità: <%= c.quantity  %></h2>
                                 <form action="/cart-delete-item" method="POST">
-                                    <input type="hidden" value="<%= c.id %>" name="comicId">
+                                    <input type="hidden" value="<%= c.comicId._id %>" name="comicId">
                                     <button class="btn" type="submit">ELIMINA</button>
                                 </form>
                             </div>

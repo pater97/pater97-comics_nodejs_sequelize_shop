@@ -31,8 +31,16 @@ article div i:hover{
 article img:hover{
     box-shadow: 1px -1px 17px 0px #cdcdcd;
 }
+article img{
+    width: 80%;
+    margin: auto;
+}
 article{
     margin-top: 2rem;
+    min-width: calc(100%/3);
+    padding: 0 2rem;
+    display: flex;
+    flex-direction: column;
 }
 .action{
     display: flex;
@@ -43,4 +51,7 @@ article{
     background: none;
     border: none;
     color: white;
+}
+main{
+    padding: 2rem;
 }

@@ -1,0 +1,23 @@
+.newComic{
+    display: flex;
+    justify-content: center;
+    margin: 5rem 0;
+}
+article:hover{
+    transform: translateY(-3rem);
+    transition: all .3s ease-in-out;
+}
+article:hover a img{
+    box-shadow: 1px -1px 17px 0px #cdcdcd;;
+}
+article a {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-decoration: none;
+    padding: 1rem;
+}
+article a img{
+    max-height:26rem ;
+    margin-bottom: 1.5rem;
+}

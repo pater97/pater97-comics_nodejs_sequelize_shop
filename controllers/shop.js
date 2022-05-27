@@ -1,142 +1,126 @@
+//importo i modelli
 const Comic = require('../models/comic');
-const Cart = require('../models/cart');
-//home
+const Order = require('../models/order');
+
+//homepage
 exports.getIndex = (req,res,next) => {
+  Comic.find()
+  .then( comics => {
     res.render('shop/home',{
-        pageTitle:'homePage',
-        activeClass: 'home'
+      pageTitle:'HOME',
+      activeClass:'home',
+      comics:comics
     })
-};
+  })
+  .catch(err => console.log(err));
+}
+
 //mostra tutti i fumetti
 exports.getComics = (req,res,next) => {
-    Comic.findAll()
-    .then( comics => {
-        res.render('shop/comics' ,{
-            comics:comics,
-            activeClass:'comics',
-            pageTitle: 'comics'
-        });
+  Comic.find()
+  .then(comics => {
+    res.render('shop/comics',{
+      pageTitle: 'comics',
+      activeClass: 'comics',
+      comics:comics
     })
-    .catch(err=> console.log(err));
-};
-//mostra show comic
-exports.getComic = (req,res,next) => {
-    const comicId = req.params.comicId;
-    Comic.findByPk(comicId)
-    .then( comic => {
-        res.render('shop/comic-details', {
-            comic: comic,
-            pageTitle: comic.title,
-            activeClass:'comics'
-        })
-    })
-};
-// carrello ////////////////////////////////////////////////////////////////////7
-//mostra carrello
-exports.getCart = (req,res,next) => {
-    req.user.getCart()
-    .then( cart => {
-        return cart
-        .getComics()
-        .then(comics => {
-            res.render('shop/cart',{
-                pageTitle:'carrello',
-                activeClass : 'cart',
-                comics:comics,
-        });
-    })
-    .catch(err => console.log(err));
-    })
-    .catch(err => console.log(err));
+  })
+  .catch(err => console.log(err));
 }
-//aggiungere al carrello
-exports.postCart =(req,res,next) => {
-    const comicId = req.body.comicId;  //productId si riferisce al nome dell'nput
-    let fetchedCart;                    //si riferisce al carrello recuperato(devo salvarlo qui per averlo disponibile anche nelle funzioni annidate)
-    let newQuantity = 1;                //farà in modo che se il prodotto non esite la qty sarà uno altrimenti la incrementerà
-    req.user
-    .getCart()                        //qui abbiamo il carrello in base all'utente che lo ha richiesto
-    .then(cart => {
-      fetchedCart = cart;             //salvo il carrello recuperato nella variabile
-      return cart.getComics({ where : {id:comicId}});    //qui selezioniamo il prodotto in base all'id
+//mostra singolo fumetto
+exports.getComic = (req,res,next) => {
+  //estrapolo dalla richiesta del get l'id che mi serve
+  const comicId = req.params.comicId;
+  //cerco il fumetto con quel nome
+  Comic.findById(comicId)
+  //render della pagina alla quale passo i dati estrapolati sopra
+  .then(comic => {
+    console.log(comic);
+    res.render('shop/comic-details' ,{
+      comic: comic,
+      pageTitle: comic.title,
+      activeClass: 'comics'
     })
-    .then(comics => {
-      let comic;
-      if(comics.length > 0){
-        comic = comics[0];
-      }
-      //qui si incrementa la quantità se il prodotto è già presente
-      if(comic){
-        const oldQuantity = comic.cartItem.quantity;         //prendere la quantità presente     
-        newQuantity = oldQuantity + 1;                        //incremento la quantità aggiungendone uno
-        return comic;   
-      }
-      return Comic.findByPk(comicId)   //reupero il prodotto guardando nella tabella comic attraverso l'id
-     })
-      .then(comic => {
-        return fetchedCart.addComic(comic, {  //aggiungo al carrello il prodotto grazie a questo metodo dato da sequelize passando il prodotto filtrato da id
-          through : { quantity : newQuantity}     //grazie a through interagisco con la tabella cart-item e ne modifico la quantità
-        });    
-      })
-     .then( () => {
-      res.redirect('/cart');
-     })
-     .catch(err => console.log(err));
-  };
-  // cancellare dal carrello i prodotti
-exports.postCartDeleteComic = (req,res,next) => {
-    const comicId = req.body.comicId;                      //recupero l'id del prodotto che voglio eliminare
-    req.user.getCart()                                      //passando dalla richiesta dell'utente recupero il carrello
-    .then(cart => {
-      return cart.getComics({where : {id:comicId}})        //attraverso l'id prendo il prodotto presente nel carrello
+  })
+}
+
+//mostro il carrello
+exports.getCart = (req,res,next) => {
+  req.user
+  .populate('cart.items.comicId')
+  // .execPopulate()
+  .then(user => {
+    const comics = user.cart.items;
+    res.render('shop/cart',{
+      pageTitle: 'Carrello',
+      activeClass: 'cart',
+      comics: comics
     })
-    .then( comics => {
-      const comic = comics[0];                          //estrapolo dalla risposta del prodotto solo il prodotto
-      return comic.cartItem.destroy();                    //lo elimino grazie alla funzione di sequelize
-    })
+  })
+  .catch(err => console.log(err));
+}
+
+//aggiungo al carrello
+exports.postCart = (req,res,next) => {
+  const comicId = req.body.comicId;
+  Comic.findById(comicId)
+  .then( comic => {
+    return req.user.addToCart(comic)
+  })
+  .then( result => {
+    console.log(result);
+    console.log('aggiunto al carrello');
+    res.redirect('/cart')
+  })
+  .catch(err => console.log(err));
+}
+//rimuovo dal carrelloi un articolo 
+exports.postCartDeleteComic = (req, res, next) => {
+  const comicId = req.body.comicId;
+  req.user
+    .removeFromCart(comicId)
     .then(result => {
-      res.redirect('/cart');                              //reindirizzo sul carrello
+      res.redirect('/cart');
     })
     .catch(err => console.log(err));
-  };
-//   ordini     ////////////////////////////////////////////////////////////
-//creare un nuovo ordine
-exports.postOrder = (req,res,next) => {
-    let fetchedCart;                        //variabile utile a tenere traccia del carrello
-    req.user.getCart()                      //ottengo il carrello dell'utente partendo proprio dalla richiesta dell'utente
-    .then(cart => {
-      fetchedCart = cart;                   //inserisco il contenuto del carrello su cui agisco nella variabile
-      return cart.getComics();            //ottengo i prodotti contenuti all'interno del carrello
-    })
-    .then( comics => {
-      return req.user.createOrder()       //creo un nuovo ordine
-      .then(order => {
-        return order.addComics(         //aggiungo i prodoti all'ordine appena creato grazie alla funzione di sequelize
-          comics.map(comic => {       //mappo i prodotti per estrapolare la quantità
-            comic.orderItem = { quantity : comic.cartItem.quantity};     //grazie alle relazioni mando alla tab orderItem la quantità presa da cartItem
-            return comic;
-          })
-        );
-      })
-      .catch(err => console.log(err));
-    })
-    .then( result => {
-      fetchedCart.setComics(null);        //funzione predefinita di sequelize che pulirà il carrello
+};
+//creo l'ordine
+exports.postOrder = (req, res, next) => {
+  req.user
+    .populate('cart.items.comicId')
+    // .execPopulate()
+    .then(user => {
+      const comics = user.cart.items.map(i => {
+        return { quantity: i.quantity, comic: { ...i.comicId._doc } };
+      });
+      const order = new Order({
+        user: {
+          name: req.user.name,
+          userId: req.user
+        },
+        comics: comics
+      });
+      return order.save();
     })
     .then(result => {
+      return req.user.clearCart();
+    })
+    .then(() => {
       res.redirect('/orders');
     })
     .catch(err => console.log(err));
-  };
-//mostra ordini
-exports.getOrders = (req,res,next) => {
-    req.user.getOrders({include:['comics']})
-    .then(orders => {
-        res.render('shop/order',{
-            pageTitle:'ordini',
-            activeClass : 'order',
-            orders:orders
-    });
-   })
-   .catch(err => console.log(err));
 };
+//pagina order mostra
+exports.getOrders = (req, res, next) => {
+  Order.find({ 'user.userId': req.user._id })
+    .then(orders => {
+      res.render('shop/order', {
+        activeClass: 'orders',
+        pageTitle: 'STORICO ORDINI',
+        orders: orders
+      });
+    })
+    .catch(err => console.log(err));
+};
+
+
